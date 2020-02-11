@@ -56,4 +56,7 @@ class LoginView(MethodView):
 
 class RegisteView(MethodView):
     def post(self):
-        pass
+        ref = {
+            "success": parameter["login_success"]
+        }
+        return jsonify(ref)

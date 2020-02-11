@@ -156,6 +156,7 @@
         this.name();
         this.$cookies.set("Access-Control-Allow-Origin", "*");
         this.$cookies.set("Access-Control-Allow-Methods", "POST");
+        this.$cookies.set("Access-Control-Allow-Credentials","true")
         if (this.isauthlist.isusername == true ||
           this.isauthlist.ispassword == true ||
           this.isauthlist.isemail == true ||
@@ -170,29 +171,30 @@
           }
           var header = {"Access-Control-Allow-Origin": "*"}
           this.$axios({
-            method: "post",
-            url: "http://127.0.0.1:5000" + '/registe',
+            method: "POST",
+            url: "/api" + '/registe',
             // url:'/api/registe',
+              headers: header,
             dataType: 'jsonp',
             data: this.qs.stringify(date)
           }).then((data) => {
 
-            alert(data)
+            alert("成功"+data)
           }).catch((error) => {
-            alert(error)
+            alert("失败"+error)
           });
-          $.ajax(
-            "http://127.0.0.1:5000" + '/registe',
-            {
-              type: "post",
-              changeOrigin: true,
-              data: date,
-              headers: header,
-              success: function (data) {
-                alert(data)
-              }
-            }
-          )
+          // $.ajax(
+          //   "http://127.0.0.1:5000" + '/registe',
+          //   {
+          //     type: "post",
+          //     changeOrigin: true,
+          //     data: date,
+          //     headers: header,
+          //     success: function (data) {
+          //       alert(data)
+          //     }
+          //   }
+          // )
         }
       }
     },
