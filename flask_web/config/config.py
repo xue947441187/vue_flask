@@ -1,9 +1,14 @@
 # coding:utf-8
 import os
+import re
 
 DEBUG = True
+obj_dir = re.match(r"(.*flask_web)", os.getcwd()).group(1)
+
+os.environ["FLASK_APP"] = obj_dir + "\\main\\app.py"
+
 basedir = os.path.abspath(os.path.dirname(__file__))
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'myweb.db')
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + (obj_dir + '\\config\\myweb.db')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
 SQLALCHEMY_TRACK_MODIFICATIONS = True
