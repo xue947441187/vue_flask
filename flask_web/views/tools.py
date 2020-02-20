@@ -1,7 +1,8 @@
 import hashlib
-from flask import request
+from flask import request, jsonify
 import jwt
 from flask_web.config.config import jwt_crt
+from flask_web.models.user_model import CookieAuth
 
 
 def encryption(date):
@@ -47,10 +48,19 @@ def login_auth(func):
     :param func:
     :return:
     """
+
     def sign_auth(*args, **kwargs):
         if request.method == "GET":
             """"""
-            request.cookies.get("login")
+            try:
+                user_id = set_jwt(request.cookies.get("login")).id
+                cookie = CookieAuth.query.filter_by(cookie=request.cookies.get("login"))
+                db_user_id = set_jwt(cookie).id
+            except:
+                return jsonify({"code": 405, "success": "登陆信息不对,请返回返回登陆页面"})
+            if user_id != db_user_id:
+                return jsonify({"code": 405, "success": "登陆信息不对,请返回返回登陆页面"})
+            return func(*args, **kwargs)
 
         if request.method == "POST":
             # return "post 通过"
@@ -58,7 +68,6 @@ def login_auth(func):
                 request.cookies.get("login")
             except:
                 return func(*args, **kwargs)
-            request.method == "GET"
             return func(*args, **kwargs)
         return func(*args, **kwargs)
 

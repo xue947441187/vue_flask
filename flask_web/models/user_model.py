@@ -15,7 +15,7 @@ class User(db.Model):
     '''
     id = db.Column(db.Integer, primary_key=True)  # 主键
     username = db.Column(db.String(128), index=True, unique=True)  # 用户名
-    passwrod = db.Column(db.String(128), nullable=False)  # 用户密码
+    password = db.Column(db.String(128), nullable=False)  # 用户密码
     createTime = db.Column(db.DateTime, default=datetime.datetime.now())  # 帐号创建时间
     email = db.Column(db.String(128), default=None)
     phone = db.Column(db.Integer, default=None)

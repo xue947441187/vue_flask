@@ -182,7 +182,9 @@
                     }).then((data) => {
                         if (data.data.code == 400) {
                             alert("当前账号或邮箱已被注册,请重新输入");
-                            this.location.reload();
+                            // this.location.reload();
+                            // this.reload();
+                            window.location.reload()
 
                         } else if (data.data.code == 200) {
                             alert("注册成功,点击继续跳转到登陆页面");
