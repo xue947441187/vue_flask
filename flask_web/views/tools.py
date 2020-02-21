@@ -16,7 +16,7 @@ def encryption(date):
     return retsult
 
 
-def get_jwt(date):
+def set_jwt(date):
     """jwt加密
     :param date: 需要传递的参数
     :return: 加密后的数据
@@ -32,7 +32,7 @@ def get_jwt(date):
     return jwt_token
 
 
-def set_jwt(date):
+def get_jwt(date):
     """ jwt解密
 
     :param date:加密的jwt数据
@@ -53,9 +53,9 @@ def login_auth(func):
         if request.method == "GET":
             """"""
             try:
-                user_id = set_jwt(request.cookies.get("login")).id
-                cookie = CookieAuth.query.filter_by(cookie=request.cookies.get("login"))
-                db_user_id = set_jwt(cookie).id
+                user_id = get_jwt(request.cookies.get("login"))["id"]
+                cookie = CookieAuth.query.filter_by(cookie=request.cookies.get("login")).first()
+                db_user_id = (get_jwt(cookie.cookie))["id"]
             except:
                 return jsonify({"code": 405, "success": "登陆信息不对,请返回返回登陆页面"})
             if user_id != db_user_id:

@@ -4,7 +4,7 @@ from flask import request, jsonify, make_response, Response
 from flask.views import MethodView
 from flask_web.models.user_model import User, CookieAuth
 from flask_web.config.config import parameter
-from flask_web.views.tools import encryption, login_auth, get_jwt
+from flask_web.views.tools import encryption, login_auth, set_jwt
 
 from flask_web import app, Blueprint, db
 
@@ -27,7 +27,7 @@ class LoginView(MethodView):
     def get(self):
         # login_cookie = request.cookies.get("login")
         date = {
-            "success": 200
+            "code": 200
         }
         return jsonify(date)
 
@@ -48,13 +48,17 @@ class LoginView(MethodView):
             "iat": time.time(),
             'id': current_user.username
         }
-        jw = CookieAuth(user_id=user_id,cookie=get_jwt(jwt_dict))
+        for i in CookieAuth.query.filter_by(user_id=user_id).all():
+            db.session.delete(i)
+        db.session.commit()
+
+        jw = CookieAuth(user_id=user_id, cookie=set_jwt(jwt_dict))
         db.session.add(jw)
         db.session.commit()
         ret = {
             "code": 200,
             "success": parameter["login_success"],
-            "cookie": get_jwt(jwt_dict)
+            "cookie": set_jwt(jwt_dict)
         }
         return jsonify(ret)
 

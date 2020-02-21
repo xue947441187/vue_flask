@@ -22,7 +22,5 @@ export default new Router({
           path: "/logininfo",
           component: logininfo
         }
-
-
     ]
 })

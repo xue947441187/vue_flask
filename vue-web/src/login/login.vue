@@ -36,6 +36,7 @@
 </template>
 
 <script>
+
     export default {
         name: "login",
         data() {
@@ -47,7 +48,7 @@
             }
         },
         created() {
-            window.addEventListener("scroll", () => {
+            window.addEventListener("load", () => {
                 var login = this.$cookies.get("login");
                 var date = {
                     "login": login,
@@ -59,10 +60,12 @@
                         dataType: "jsonp",
                         data: this.qs.stringify(date)
                     }).then((data) => {
-                        // alert(data.data.code)
+                        window.console.log(data);
+                        alert(data.data.code);
                         if (data.data.code == 200) {
-                            this.window.href("/logininfo");
-                            // window.location.href = "/logininfo";
+                            alert("跳转页面");
+                            // this.window.href("/logininfo");
+                            window.location.href = "/logininfo";
                         } else {
                             this.$cookies.remove("login");
 
