@@ -32,7 +32,7 @@ class LoginView(MethodView):
         return jsonify(date)
 
     def post(self):
-        response = make_response()
+        # response = make_response()
         try:
             form = request.form
             user_id = form.get("userid")
@@ -48,11 +48,11 @@ class LoginView(MethodView):
             "iat": time.time(),
             'id': current_user.username
         }
-        for i in CookieAuth.query.filter_by(user_id=user_id).all():
+        for i in CookieAuth.query.filter_by(username=user_id).all():
             db.session.delete(i)
         db.session.commit()
 
-        jw = CookieAuth(user_id=user_id, cookie=set_jwt(jwt_dict))
+        jw = CookieAuth(username=user_id, cookie=set_jwt(jwt_dict))
         db.session.add(jw)
         db.session.commit()
         ret = {
@@ -68,12 +68,6 @@ class RegisteView(MethodView):
     """
 
     def post(self):
-        # response = Response()
-        # response.headers["Access-Control-Allow-Origin"] = "*"
-        # response.headers["Access-Control-Allow-Methods"] = "POST"
-        # response.headers["Access-Control-Allow-Headers"] = "x-requested-with"
-        # request.headers.get("Access-Control-Allow-Origin","*")
-
         if request.method == 'POST':
             try:
                 # response.headers('Access-Control-Allow-Origin','*')
@@ -95,7 +89,7 @@ class RegisteView(MethodView):
             except Exception as e:
                 user = False
             if user:
-                return jsonify({"success": "当前用户已被占用","code":400})
+                return jsonify({"success": "当前用户已被占用", "code": 400})
             re_name = re.match(r'(\s|\d|_)*', name).string
             if not re_name:
                 re_name = re_username
@@ -105,8 +99,11 @@ class RegisteView(MethodView):
                     re_userpassword == userpassword \
                     and re_phone == phone:
                 if not User.query.filter_by(username=username).first():
-                    user = User(username=username, passwrod=userpassword, email=email, phone=phone, name=name)
-                    db.session.add(user)
-                    db.session.commit()
-                    return jsonify({"success": parameter['create_user_success'],"code":200})
+                    try:
+                        user = User(username=username, password=userpassword, email=email, phone=phone, name=name)
+                        db.session.add(user)
+                        db.session.commit()
+                    except Exception as e:
+                        app.logger.error(e)
+                    return jsonify({"success": parameter['create_user_success'], "code": 200})
         return jsonify({"error": parameter['create_user_error']}, 404)

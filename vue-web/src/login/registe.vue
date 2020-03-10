@@ -188,7 +188,8 @@
 
                         } else if (data.data.code == 200) {
                             alert("注册成功,点击继续跳转到登陆页面");
-                            this.window.href("/login");
+                            // this.window.href("/login");
+                            window.location.href = '/login'
                         }
                     }).catch((error) => {
                         alert("失败" + error);

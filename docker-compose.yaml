@@ -1,0 +1,23 @@
+version: "2.2"
+
+services:
+  mongodb:
+    image: bitnami/mongodb
+    restart: always
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: "exit 0 "
+
+# 暂时不可使用
+#  postgresql:
+#    image: frodenas/postgresql:latest
+#    restart: always
+#    ports:
+#      - 15432:5432
+##    volumes:
+##    - E:\\postgres_data\\:/var/lib/postgresql/
+#    environment:
+#      - POSTGRES_PASSWORD=postgres
+#    healthcheck:
+#      test: "exit 0"

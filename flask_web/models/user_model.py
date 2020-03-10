@@ -26,9 +26,19 @@ class User(db.Model):
 
 
 class CookieAuth(db.Model):
+    """登陆认证存储"""
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.ForeignKey("user.username"))
+    username = db.Column(db.ForeignKey("user.username"))
     cookie = db.Column(db.String(4096), nullable=False)
 
     def __repr__(self):
         return "<CookieAuth {}>".format(self.cookie)
+
+
+class PersonalInfoTable(db.Model):
+    """个人信息"""
+    username = db.Column(db.ForeignKey("user.username"))
+    sex = db.Column(db.String(128), default="2")
+    age = db.Column(db.Integer(128), )
+    height = db.Column(db.Integer, )
+    wetght = db.Column(db.Integer, )
