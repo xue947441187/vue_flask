@@ -4,19 +4,13 @@
         <!--<login></login>-->
         <router-view></router-view>
         <!--<button type="button" @click="test">test</button>-->
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <button class="btn btn-primary"  @click="test">测试按钮</button>
-                </div>
-            </div>
-        </div>
     </div>
 
 </template>
 
 
 <script>
+
     import top from './top/top';
     // import login from './login/login'
     // import $ from  "jquery"

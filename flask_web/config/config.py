@@ -1,15 +1,26 @@
 # coding:utf-8
 import os
-import re
+import re,platform
+system = platform.architecture()[1]
 
 DEBUG = True
 obj_dir = re.match(r"(.*flask_web)", os.getcwd()).group(1)
 
-os.environ["FLASK_APP"] = obj_dir + "\\main\\app.py"
+if system == "WindowsPE":
+    """windows系统"""
+    os.environ["FLASK_APP"] = obj_dir + "\\main\\app.py"
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + (obj_dir + '\\config\\myweb.db'+ '?check_same_thread=False')
+    SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+    log = obj_dir+"\\logs\\all.log"
+elif system == "ELF":
+    """linux系统"""
+    os.environ["FLASK_APP"] = obj_dir + "/main/app.py"
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + (obj_dir + '/config/myweb.db' + '?check_same_thread=False')
+    SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+    log = obj_dir + "/logs/all.log"
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + (obj_dir + '\\config\\myweb.db'+ '?check_same_thread=False')
-SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 SQLALCHEMY_COMMIT_TEARDOWN = True
@@ -28,7 +39,6 @@ parameter = {
 设置认证
 200表示成功
 404表示失败
-
 '''
 # ------------------------logging------------
 FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'

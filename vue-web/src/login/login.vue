@@ -60,10 +60,10 @@
                         dataType: "jsonp",
                         data: this.qs.stringify(date)
                     }).then((data) => {
-                        window.console.log(data);
-                        alert(data.data.code);
+                        // window.console.log(data);
+                        // alert(data.data.code);
                         if (data.data.code == 200) {
-                            alert("跳转页面");
+                            // alert("跳转页面");
                             // this.window.href("/logininfo");
                             window.location.href = "/logininfo";
                         } else {
@@ -95,7 +95,7 @@
                 }).then((data) => {
                     if (data.data.code == 200) {
                         this.$cookies.set("login", data.data.cookie, 7 * 24 * 60 * 60);
-                        alert("成功");
+                        // alert("成功");
                         // this.$router.push("/login")
                         window.location.href = "/login"
                     } else {

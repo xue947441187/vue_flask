@@ -1,7 +1,12 @@
 <template>
     <div>
-        <p v-text="this.loginInfoList.login_text"></p>
+        <div v-for="(item,index) in this.loginInfoList.login_text" :key="(item,index)">
+
+        <p>{{index}}:{{item}}</p>
+
     </div>
+    </div>
+
 </template>
 
 <script>
@@ -17,6 +22,9 @@
         created() {
             window.addEventListener('load', () => {
                 var login = this.$cookies.get("login");
+                if (login == null){
+                    window.location.href='/login'
+                }
                 var data = {
                     "login": login,
                 };
@@ -26,8 +34,12 @@
                     dataType: "jsonp",
                     data: this.qs.stringify(data)
                 }).then((data) => {
-                    window.console.log(data.data[0].success);
+                    if (data.data[0].success == "registe" && typeof data.data[0].success == "string"){
+                        alert(data.data[0].success + '跳转页面')
+                    } else if (data.data[0].success != "registe" && typeof data.data[0].success == "object")
+                    {window.console.log(data.data[0].success);
                     this.loginInfoList.login_text = data.data[0].success;
+                    }
                     // alert(data.data)
                 }).catch((error) => {
                     alert(error);

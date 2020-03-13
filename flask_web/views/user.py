@@ -15,7 +15,7 @@ class Test(MethodView):
     """测试用"""
 
     def get(self):
-        return make_response({"success": 200})
+        return jsonify({"success": 200})
 
 
 class LoginView(MethodView):

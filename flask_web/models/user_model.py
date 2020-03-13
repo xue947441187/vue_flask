@@ -37,8 +37,12 @@ class CookieAuth(db.Model):
 
 class PersonalInfoTable(db.Model):
     """个人信息"""
-    username = db.Column(db.ForeignKey("user.username"))
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.ForeignKey("user.username"))
     sex = db.Column(db.String(128), default="2")
-    age = db.Column(db.Integer(128), )
-    height = db.Column(db.Integer, )
-    wetght = db.Column(db.Integer, )
+    age = db.Column(db.Integer, default=0)
+    height = db.Column(db.Integer, default=0)
+    wetght = db.Column(db.Integer, default=0)
+
+    def __repr__(self):
+        return "<personalInfo {}>".format(self.name)

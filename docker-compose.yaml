@@ -1,13 +1,36 @@
 version: "2.2"
 
 services:
-  mongodb:
-    image: bitnami/mongodb
+#  mongodb:
+#    image: bitnami/mongodb
+#    restart: always
+#    ports:
+#      - 27017:27017
+#    healthcheck:
+#      test: "exit 0 "
+  flask:
+    image: myweb/flask
     restart: always
+    command: "uwsgi --ini uwsgi.ini"
+    environment:
+      FLASK_APP: /vue_flask/flask_web/mian/app.py
+      FLASK_ENV: development
     ports:
-      - 27017:27017
+    - 5000:5000
     healthcheck:
-      test: "exit 0 "
+      test: "exit 0"
+
+  vue:
+    image: myweb/vue
+    restart: always
+    environment:
+      FLASK_HOST_PORT: "flask:5000"
+    command: bash sed.sh
+    ports:
+    - 8080:80
+    healthcheck:
+      test: "exit 0"
+
 
 # 暂时不可使用
 #  postgresql:
